@@ -10,6 +10,10 @@ A Python script that communicates with a **Boosted Board XR electric scooter bat
 
 The script connects to the battery's CAN interface and:
 
+![Boosted Board XR accessory port CAN bus connection](https://canada1.discourse-cdn.com/flex030/uploads/saleae/optimized/1X/fec39a82bbf38dc4958bed12216995dcae777db0_2_452x500.jpeg)
+
+*Image credit: [Saleae Forum — Hacking the Boosted Accessory Port](https://discuss.saleae.com/t/hacking-the-boosted-accessory-port/522)*
+
 1. Waits for the battery to boot and start sending CAN messages
 2. Enables message routing from the battery to the CAN bus
 3. Sends periodic keep-alive messages so the battery thinks an ESC is connected
