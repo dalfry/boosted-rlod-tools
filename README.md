@@ -10,7 +10,7 @@ A Python script that communicates with a **Boosted Board XR electric scooter bat
 
 The script connects to the battery's CAN interface and:
 
-![Boosted Board XR accessory port CAN bus connection](https://canada1.discourse-cdn.com/flex030/uploads/saleae/optimized/1X/fec39a82bbf38dc4958bed12216995dcae777db0_2_452x500.jpeg)
+![Boosted Board XR accessory port CAN bus connection](docs/can-bus-connection.jpg)
 
 *Image credit: [Saleae Forum — Hacking the Boosted Accessory Port](https://discuss.saleae.com/t/hacking-the-boosted-accessory-port/522)*
 
@@ -43,6 +43,42 @@ That's the only external dependency. All other modules (`argparse`, `sys`, `time
 - A **Boosted Board XR battery** connected to the CAN bus via the adapter
 
 Connect the adapter to your computer, note the device path (e.g. `/dev/ttyACM0` on Linux, `/dev/tty.usbmodem1101` on macOS), and pass it to the script.
+
+## Hardware Connection
+
+This section describes how to connect a Boosted Board XR battery to a CAN bus adapter for use with this script.
+
+### Required Hardware
+
+- **Boosted Board XR battery** (the source of CAN bus data)
+- **CAN-to-USB adapter** (slcan-compatible), such as:
+  - USB-to-CAN dongle with slcan firmware
+  - Arduino or ESP32 running slcan firmware
+  - Peak-PCAN, Kvaser, or similar adapter with slcan driver support
+- **JST connector** matching the Boosted Board accessory port (typically JST GH 3-pin)
+
+### Pinout
+
+The Boosted Board XR accessory port exposes the CAN bus through a JST connector. Refer to the image above for the physical wiring.
+
+| Pin | Signal | Description |
+|-----|--------|-------------|
+| 1 | CAN-H | CAN bus high (2.5V–3.5V differential) |
+| 2 | CAN-L | CAN bus low (1.5V–2.5V differential) |
+| 3 | GND | Ground reference |
+
+### Wiring Steps
+
+1. **Identify the accessory port** on the Boosted Board XR battery (a small JST connector on the side of the pack).
+2. **Connect CAN-H** (pin 1) to the CAN-H pin on your USB-to-CAN adapter.
+3. **Connect CAN-L** (pin 2) to the CAN-L pin on your USB-to-CAN adapter.
+4. **Connect GND** (pin 3) to the ground pin on your adapter.
+5. **Plug the adapter** into your computer via USB.
+6. **Verify the device** appears at `/dev/ttyACM*` (Linux) or `/dev/tty.usbmodem*` (macOS).
+
+> **⚠️ Warning:** Double-check your wiring before powering the battery. Reversing CAN-H and CAN-L will not damage the battery but will prevent communication. Connecting to the wrong pins may damage your adapter.
+
+> **⚠️ Warning:** Ensure your CAN adapter supports **250 kbps** bitrate, which is the speed the Boosted Board XR battery uses on its accessory port.
 
 ## Usage
 
